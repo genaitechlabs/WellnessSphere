@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { AudioPlayer } from "@/components/audio-player";
 import { useQuery } from "@tanstack/react-query";
+import { useToast } from "@/hooks/use-toast";
 import { 
   Bath, 
   Moon, 
@@ -17,6 +18,7 @@ import {
 
 export default function Mindfulness() {
   const [activeExercise, setActiveExercise] = useState<string | null>(null);
+  const { toast } = useToast();
   
   const { data: soundTracks = [] } = useQuery({
     queryKey: ["/api/sound-tracks"],
@@ -98,6 +100,21 @@ export default function Mindfulness() {
     }
   ];
 
+  const handleExerciseStart = (exerciseId: string, exerciseTitle: string) => {
+    setActiveExercise(exerciseId);
+    toast({
+      title: `Starting ${exerciseTitle}`,
+      description: "Find a comfortable position and prepare for your mindfulness session.",
+    });
+  };
+
+  const handleBreathingStart = (techniqueName: string) => {
+    toast({
+      title: `Starting ${techniqueName}`,
+      description: "Follow the breathing pattern and focus on your breath. Take your time.",
+    });
+  };
+
   return (
     <div className="min-h-screen px-4 py-8">
       <div className="mx-auto max-w-6xl">
@@ -129,7 +146,7 @@ export default function Mindfulness() {
                   <Button
                     size="lg"
                     className="absolute inset-0 m-auto w-16 h-16 rounded-full bg-white/20 backdrop-blur-sm hover:bg-white/30 border-0"
-                    onClick={() => setActiveExercise(exercise.id)}
+                    onClick={() => handleExerciseStart(exercise.id, exercise.title)}
                   >
                     <Play className="h-6 w-6 text-white" />
                   </Button>
@@ -167,7 +184,7 @@ export default function Mindfulness() {
                   
                   <Button 
                     className="w-full wellness-button"
-                    onClick={() => setActiveExercise(exercise.id)}
+                    onClick={() => handleExerciseStart(exercise.id, exercise.title)}
                   >
                     Begin Session
                   </Button>
@@ -231,7 +248,12 @@ export default function Mindfulness() {
                   <span className="text-xs text-muted-foreground">
                     Duration: {technique.duration}
                   </span>
-                  <Button size="sm" variant="outline" className="rounded-full">
+                  <Button 
+                    size="sm" 
+                    variant="outline" 
+                    className="rounded-full"
+                    onClick={() => handleBreathingStart(technique.name)}
+                  >
                     Start Practice
                   </Button>
                 </div>
@@ -239,7 +261,13 @@ export default function Mindfulness() {
             ))}
             
             <div className="text-center mt-6">
-              <Button className="wellness-button">
+              <Button 
+                className="wellness-button"
+                onClick={() => toast({
+                  title: "Breathing Exercises Library",
+                  description: "Explore our complete collection of guided breathing techniques for stress relief and focus.",
+                })}
+              >
                 View All Breathing Exercises
               </Button>
             </div>
