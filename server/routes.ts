@@ -84,7 +84,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post("/api/cart", async (req, res) => {
     try {
-      const result = insertCartItemSchema.safeParse(req.body);
+      // For demo purposes, using a fixed user ID
+      const userId = 1;
+      const cartData = {
+        ...req.body,
+        userId: userId
+      };
+      
+      const result = insertCartItemSchema.safeParse(cartData);
       if (!result.success) {
         return res.status(400).json({ message: "Invalid cart item data", errors: result.error.issues });
       }
@@ -92,6 +99,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const cartItem = await storage.addToCart(result.data);
       res.status(201).json(cartItem);
     } catch (error) {
+      console.error("Cart error:", error);
       res.status(500).json({ message: "Failed to add item to cart" });
     }
   });
