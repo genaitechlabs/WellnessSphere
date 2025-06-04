@@ -195,7 +195,12 @@ export class MemStorage implements IStorage {
 
   async createProduct(insertProduct: InsertProduct): Promise<Product> {
     const id = this.productIdCounter++;
-    const product: Product = { ...insertProduct, id };
+    const product: Product = { 
+      ...insertProduct, 
+      id,
+      imageUrl: insertProduct.imageUrl || null,
+      inStock: insertProduct.inStock ?? true
+    };
     this.products.set(id, product);
     return product;
   }
@@ -207,7 +212,13 @@ export class MemStorage implements IStorage {
 
   async addToCart(insertCartItem: InsertCartItem): Promise<CartItem> {
     const id = this.cartItemIdCounter++;
-    const cartItem: CartItem = { ...insertCartItem, id };
+    const cartItem: CartItem = { 
+      ...insertCartItem, 
+      id,
+      userId: insertCartItem.userId ?? null,
+      productId: insertCartItem.productId ?? null,
+      quantity: insertCartItem.quantity ?? 1
+    };
     this.cartItems.set(id, cartItem);
     return cartItem;
   }
@@ -243,6 +254,10 @@ export class MemStorage implements IStorage {
       ...insertBooking, 
       id, 
       createdAt: new Date(),
+      userId: insertBooking.userId ?? null,
+      therapistName: insertBooking.therapistName ?? null,
+      notes: insertBooking.notes ?? null,
+      status: insertBooking.status ?? "pending"
     };
     this.bookings.set(id, booking);
     return booking;
@@ -273,7 +288,13 @@ export class MemStorage implements IStorage {
 
   async createSoundTrack(insertSoundTrack: InsertSoundTrack): Promise<SoundTrack> {
     const id = this.soundTrackIdCounter++;
-    const soundTrack: SoundTrack = { ...insertSoundTrack, id };
+    const soundTrack: SoundTrack = { 
+      ...insertSoundTrack, 
+      id,
+      description: insertSoundTrack.description ?? null,
+      duration: insertSoundTrack.duration ?? null,
+      audioUrl: insertSoundTrack.audioUrl ?? null
+    };
     this.soundTracks.set(id, soundTrack);
     return soundTrack;
   }
