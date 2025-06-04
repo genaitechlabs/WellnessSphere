@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import { ShoppingCart, Trash2, Plus, Minus } from "lucide-react";
+import { ShoppingCart as ShoppingCartIcon, Trash2, Plus, Minus } from "lucide-react";
 
 interface CartItem {
   id: number;
@@ -98,7 +98,7 @@ export function ShoppingCart({ isOpen, onClose }: ShoppingCartProps) {
       <SheetContent className="w-full sm:max-w-lg">
         <SheetHeader>
           <SheetTitle className="flex items-center gap-2">
-            <ShoppingCart className="h-5 w-5" />
+            <ShoppingCartIcon className="h-5 w-5" />
             Shopping Cart
             {cartItems.length > 0 && (
               <Badge variant="secondary" className="ml-auto">
@@ -112,7 +112,7 @@ export function ShoppingCart({ isOpen, onClose }: ShoppingCartProps) {
           <div className="flex-1 overflow-y-auto py-6">
             {cartWithProducts.length === 0 ? (
               <div className="text-center py-12">
-                <ShoppingCart className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                <ShoppingCartIcon className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
                 <h3 className="text-lg font-semibold text-foreground mb-2">
                   Your cart is empty
                 </h3>
@@ -137,7 +137,7 @@ export function ShoppingCart({ isOpen, onClose }: ShoppingCartProps) {
                           />
                         ) : (
                           <div className="w-16 h-16 bg-accent rounded-lg flex items-center justify-center">
-                            <ShoppingCart className="h-6 w-6 text-accent-foreground" />
+                            <ShoppingCartIcon className="h-6 w-6 text-accent-foreground" />
                           </div>
                         )}
                         
